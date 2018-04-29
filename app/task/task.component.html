@@ -1,0 +1,58 @@
+
+
+<input type="button" value="Add" class="btn btn-primary" (click)="addTasks()" />
+
+<div style="overflow:auto">
+   <table class="table">
+       <thead>
+           <tr class="info">
+               <td>Id</td>
+               <td>Name</td>
+               <td>Description</td>                        
+           </tr>
+       </thead>
+       <tbody>
+           <tr *ngFor="let Tasks of Tasks;let i=idx">
+               <ng-template [ngTemplateOutlet]="loadTemplate(Tasks)" [ngTemplateOutletContext]="{ $implicit: Tasks, idx: i }"></ng-template>
+           </tr>
+       </tbody>
+   </table>
+</div>
+<div><h2>{{statusMessage}}</h2></div>
+
+
+<!--The Html Template for Read-Only Rows-->
+<ng-template #readOnlyTemplate let-Tasks>
+   <td>{{Tasks.Id}}</td>
+   <td>{{Tasks.Name}}</td>
+   <td>{{Tasks.Description}}</td>  
+   <td>
+       <input type="button" value="Edit" class="btn btn-primary" (click)="editTasks(Tasks)" />
+   </td>
+   <td>
+       <input type="button" value="Delete" (click)="deleteTasks(Tasks)" class="btn btn-danger" />
+   </td>
+</ng-template>
+<!--Ends Here-->
+
+<!--The Html Template for Editable Rows-->
+<ng-template #editTemplate>
+   <td>
+       <input type="text" [(ngModel)]="selectedTasks.Id" readonly disabled/>
+   </td>
+   <td>
+       <input type="text" [(ngModel)]="selectedTasks.Name" />
+   </td>
+   <td>
+       <input type="text" [(ngModel)]="selectedTasks.Description" />
+   </td>
+   
+   <td>
+       <input type="button" value="Save" (click)="saveTasks()" class="btn btn-success" />
+   </td>
+   <td>
+       <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+   </td>
+
+</ng-template>
+<!--Ends Here-->

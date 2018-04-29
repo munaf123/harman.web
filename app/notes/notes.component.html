@@ -1,0 +1,58 @@
+
+
+<input type="button" value="Add" class="btn btn-primary" (click)="addNotes()" />
+
+<div style="overflow:auto">
+   <table class="table">
+       <thead>
+           <tr class="info">
+               <td>Id</td>
+               <td>Name</td>
+               <td>Description</td>                        
+           </tr>
+       </thead>
+       <tbody>
+           <tr *ngFor="let Notes of Notes;let i=idx">
+               <ng-template [ngTemplateOutlet]="loadTemplate(Notes)" [ngTemplateOutletContext]="{ $implicit: Notes, idx: i }"></ng-template>
+           </tr>
+       </tbody>
+   </table>
+</div>
+<div><h2>{{statusMessage}}</h2></div>
+
+
+<!--The Html Template for Read-Only Rows-->
+<ng-template #readOnlyTemplate let-Notes>
+   <td>{{Notes.Id}}</td>
+   <td>{{Notes.Name}}</td>
+   <td>{{Notes.Description}}</td>  
+   <td>
+       <input type="button" value="Edit" class="btn btn-primary" (click)="editNotes(Notes)" />
+   </td>
+   <td>
+       <input type="button" value="Delete" (click)="deleteNotes(Notes)" class="btn btn-danger" />
+   </td>
+</ng-template>
+<!--Ends Here-->
+
+<!--The Html Template for Editable Rows-->
+<ng-template #editTemplate>
+   <td>
+       <input type="text" [(ngModel)]="selectedNotes.Id" readonly disabled/>
+   </td>
+   <td>
+       <input type="text" [(ngModel)]="selectedNotes.Name" />
+   </td>
+   <td>
+       <input type="text" [(ngModel)]="selectedNotes.Description" />
+   </td>
+   
+   <td>
+       <input type="button" value="Save" (click)="saveNotes()" class="btn btn-success" />
+   </td>
+   <td>
+       <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+   </td>
+
+</ng-template>
+<!--Ends Here-->

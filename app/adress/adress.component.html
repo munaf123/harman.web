@@ -1,0 +1,72 @@
+
+
+<input type="button" value="Add" class="btn btn-primary" (click)="addAdress()" />
+ <span><input type="text" placeholder="search" [(ngModel)] ="searchtext" name="search"></span>
+<div style="overflow:auto">
+    <table class="table">
+        <thead>
+            <tr class="info">
+                <td>Id</td>
+                <td>Adress1</td>
+                <td>Address2</td>
+                <td>State</td>
+                <td>City</td>
+                <td>PostalCode</td>           
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let adress of addresses | adressfilter: searchtext;let i=idx">
+                <ng-template [ngTemplateOutlet]="loadTemplate(adress)" [ngTemplateOutletContext]="{ $implicit: adress, idx: i }"></ng-template>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div><h2>{{statusMessage}}</h2></div>
+
+
+<!--The Html Template for Read-Only Rows-->
+<ng-template #readOnlyTemplate let-adress>
+    <td>{{adress.Id}}</td>
+    <td>{{adress.Adress1}}</td>
+    <td>{{adress.Address2}}</td>
+    <td>{{adress.State}}</td>
+    <td>{{adress.City}}</td>
+    <td>{{adress.PostalCode}}</td>
+    <td>
+        <input type="button" value="Edit" class="btn btn-primary" (click)="editAdress(adress)" />
+    </td>
+    <td>
+        <input type="button" value="Delete" (click)="deleteAdress(adress)" class="btn btn-danger" />
+    </td>
+</ng-template>
+<!--Ends Here-->
+
+<!--The Html Template for Editable Rows-->
+<ng-template #editTemplate>
+    <td>
+        <input type="text" [(ngModel)]="selectedAdress.Id" readonly disabled/>
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="selectedAdress.Adress1" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="selectedAdress.Address2" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="selectedAdress.State" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="selectedAdress.City" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="selectedAdress.PostalCode" />
+    </td>
+    <td>
+        <input type="button" value="Save" (click)="saveAdress()" class="btn btn-success" />
+    </td>
+    <td>
+        <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+    </td>
+
+</ng-template>
+<!--Ends Here-->

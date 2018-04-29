@@ -1,0 +1,58 @@
+
+
+<input type="button" value="Add" class="btn btn-primary" (click)="addVisitor()" />
+
+<div style="overflow:auto">
+   <table class="table">
+       <thead>
+           <tr class="info">
+               <td>Id</td>
+               <td>VisitorName</td>
+               <td>Details</td>                        
+           </tr>
+       </thead>
+       <tbody>
+           <tr *ngFor="let Visitor of Visitor;let i=idx">
+               <ng-template [ngTemplateOutlet]="loadTemplate(Visitor)" [ngTemplateOutletContext]="{ $implicit: Visitor, idx: i }"></ng-template>
+           </tr>
+       </tbody>
+   </table>
+</div>
+<div><h2>{{statusMessage}}</h2></div>
+
+
+<!--The Html Template for Read-Only Rows-->
+<ng-template #readOnlyTemplate let-Visitor>
+   <td>{{Visitor.Id}}</td>
+   <td>{{Visitor.VisitorName}}</td>
+   <td>{{Visitor.Details}}</td>  
+   <td>
+       <input type="button" value="Edit" class="btn btn-primary" (click)="editVisitor(Visitor)" />
+   </td>
+   <td>
+       <input type="button" value="Delete" (click)="deleteVisitor(Visitor)" class="btn btn-danger" />
+   </td>
+</ng-template>
+<!--Ends Here-->
+
+<!--The Html Template for Editable Rows-->
+<ng-template #editTemplate>
+   <td>
+       <input type="text" [(ngModel)]="selectedVisitor.Id" readonly disabled/>
+   </td>
+   <td>
+       <input type="text" [(ngModel)]="selectedVisitor.VisitorName" />
+   </td>
+   <td>
+       <input type="text" [(ngModel)]="selectedVisitor.Details" />
+   </td>
+   
+   <td>
+       <input type="button" value="Save" (click)="saveVisitor()" class="btn btn-success" />
+   </td>
+   <td>
+       <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+   </td>
+
+</ng-template>
+<!--Ends Here-->
